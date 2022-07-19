@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class UserDTO {
+public class MessageDTO {
 
-    private String username;
+    private Integer senderId;
 
-    private String password;
+    private Integer receiverId;
+
+    private String content;
 }
