@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class UserDTO {
-
-    private Integer id;
+public class UserRegisterDTO {
 
     private String username;
 
+    private String password;
 }
