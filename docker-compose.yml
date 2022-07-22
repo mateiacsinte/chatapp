@@ -8,18 +8,18 @@ services:
     ports:
       - 8081:8080
     environment:
-      MYSQL_HOST: mysqldb
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_PORT: 3307
-  mysql:
-    image: mysql:8
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresqldb:5432/chatdb
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    depends_on:
+      - postgresqldb
+  postgresqldb:
+    image: postgres
+    container_name: postgresqldb
     ports:
-      - 3307:3307
-    volumes:
-      - ~/apps/mysql:/var/lib/mysql
+      - "5432:5432"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_USER=chatapp_user
-      - MYSQL_DATABASE=chatapp_db
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=chatdb
