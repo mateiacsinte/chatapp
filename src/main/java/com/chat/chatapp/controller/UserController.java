@@ -1,13 +1,11 @@
 package com.chat.chatapp.controller;
-import com.chat.chatapp.dto.MessageDTO;
-import com.chat.chatapp.dto.UserDTO;
-import com.chat.chatapp.dto.UserRegisterDTO;
+import com.chat.chatapp.dto.message.MessageDTO;
+import com.chat.chatapp.dto.message.SendMessageDTO;
+import com.chat.chatapp.dto.user.UserDTO;
+import com.chat.chatapp.dto.user.UserRegisterDTO;
 import com.chat.chatapp.service.MessageService;
 import com.chat.chatapp.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -36,8 +34,17 @@ public class UserController {
     }
 
     @PostMapping("/user/message")
-    public MessageDTO sendMessage(@RequestBody MessageDTO messageDTO){
+    public MessageDTO sendMessage(@RequestBody SendMessageDTO messageDTO){
         return messageService.sendMessage(messageDTO);
     }
 
+    @GetMapping("/user/message")
+    public List<MessageDTO> getMessages(){
+        return messageService.getMessages();
+    }
+
+    @GetMapping("/user/message/{userId}")
+    public List<MessageDTO> getMessagesOfUser(@PathVariable Integer userId){
+        return messageService.getMessages(userId);
+    }
 }

@@ -1,7 +1,7 @@
 package com.chat.chatapp.service;
 
-import com.chat.chatapp.dto.UserDTO;
-import com.chat.chatapp.dto.UserRegisterDTO;
+import com.chat.chatapp.dto.user.UserDTO;
+import com.chat.chatapp.dto.user.UserRegisterDTO;
 import com.chat.chatapp.entities.Message;
 import com.chat.chatapp.entities.ChatUser;
 import com.chat.chatapp.repository.UserRepository;
