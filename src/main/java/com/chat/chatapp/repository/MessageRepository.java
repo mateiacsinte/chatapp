@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Integer> {
 
-    @Query("SELECT m FROM Message m WHERE m.sender.id = ?1")
+    @Query("SELECT m FROM Message m WHERE m.sender.id = ?1 or m.receiver.id = ?1")
     List<Message> getMessageOfUser(Integer id);
 }
