@@ -35,4 +35,16 @@ public class ExceptionHandlerControllerAdvice {
         return error;
     }
 
+    @ExceptionHandler(InvalidBodyException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public @ResponseBody ExceptionResponse handleResourceNotFound(final InvalidBodyException exception,
+                                                                  final HttpServletRequest request) {
+
+        ExceptionResponse error = new ExceptionResponse();
+        error.setErrorMessage(exception.getMessage());
+        error.setRequestedURI(request.getRequestURI());
+
+        return error;
+    }
+
 }

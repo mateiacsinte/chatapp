@@ -1,5 +1,6 @@
 package com.chat.chatapp.entities;
 
+import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,11 +15,14 @@ public class ChatUser {
 
     @GeneratedValue
     @Id
+    @NotNull
     private Integer id;
 
+    @NotNull
     @Column(name = "username")
     private String username;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 

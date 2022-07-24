@@ -3,6 +3,7 @@ package com.chat.chatapp.service;
 import com.chat.chatapp.dto.user.UserDTO;
 import com.chat.chatapp.dto.user.UserRegisterDTO;
 import com.chat.chatapp.entities.ChatUser;
+import com.chat.chatapp.exceptions.InvalidBodyException;
 import com.chat.chatapp.exceptions.UserNotFoundException;
 import com.chat.chatapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,9 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public UserDTO addUser(UserRegisterDTO user){
+    public UserDTO addUser(UserRegisterDTO user) throws InvalidBodyException {
+        if(isInvalid(user)) throw new InvalidBodyException("Invalid request body");
+
         ChatUser newUser = new ChatUser();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(user.getPassword());
@@ -34,8 +37,10 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserDTO updateUser(UserDTO user) throws UserNotFoundException {
-         Optional<ChatUser> currentUserOpt = userRepository.findById(user.getId());
+    public UserDTO updateUser(UserDTO user) throws UserNotFoundException, InvalidBodyException {
+        if(isInvalid(user)) throw new InvalidBodyException("Invalid request body");
+
+        Optional<ChatUser> currentUserOpt = userRepository.findById(user.getId());
          if(currentUserOpt.isPresent()){
              currentUserOpt.get().setUsername(user.getUsername());
              userRepository.save(currentUserOpt.get());
@@ -43,11 +48,21 @@ public class UserService {
          }else throw new UserNotFoundException("User Not Found");
     }
 
-    public UserDTO deleteUser(UserDTO user) throws UserNotFoundException {
+    public UserDTO deleteUser(UserDTO user) throws UserNotFoundException, InvalidBodyException {
+        if(isInvalid(user)) throw new InvalidBodyException("Invalid request body");
+
          Optional<ChatUser> currentUserOpt = userRepository.findById(user.getId());
          if(currentUserOpt.isPresent()){
              userRepository.delete(currentUserOpt.get());
              return new UserDTO(currentUserOpt.get().getId(), currentUserOpt.get().getUsername());
          }else throw new UserNotFoundException("User Not Found");
+    }
+
+    private boolean isInvalid(UserDTO user){
+        return user.getUsername() == null;
+    }
+
+    private boolean isInvalid(UserRegisterDTO user){
+        return user.getPassword() == null || user.getUsername()== null;
     }
 }
