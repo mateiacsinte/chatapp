@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PostMapping("/user/message")
-    public MessageDTO sendMessage(@RequestBody SendMessageDTO messageDTO){
+    public MessageDTO sendMessage(@RequestBody SendMessageDTO messageDTO) throws InvalidBodyException {
         return messageService.sendMessage(messageDTO);
     }
 

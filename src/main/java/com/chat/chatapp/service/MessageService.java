@@ -4,6 +4,7 @@ import com.chat.chatapp.dto.message.MessageDTO;
 import com.chat.chatapp.dto.message.SendMessageDTO;
 import com.chat.chatapp.entities.ChatUser;
 import com.chat.chatapp.entities.Message;
+import com.chat.chatapp.exceptions.InvalidBodyException;
 import com.chat.chatapp.repository.MessageRepository;
 import com.chat.chatapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class MessageService {
         this.userRepository = userRepository;
     }
 
-    public MessageDTO sendMessage(SendMessageDTO messageDTO){
+    public MessageDTO sendMessage(SendMessageDTO messageDTO) throws InvalidBodyException {
         Message message = new Message();
         ChatUser sender = userRepository
                 .findAll()
@@ -33,11 +34,15 @@ public class MessageService {
                 .filter(user -> Objects.equals(user.getId(), messageDTO.getSenderId()))
                         .findFirst().orElse(null);
 
+        if(isInvalid(sender)) throw new InvalidBodyException("Sender Id Not Found");
+
         ChatUser receiver = userRepository
                 .findAll()
                 .stream()
                 .filter(user -> Objects.equals(user.getId(), messageDTO.getReceiverId()))
                         .findFirst().orElse(null);
+
+        if(isInvalid(receiver)) throw new InvalidBodyException("Receiver Id Not Found");
 
         message.setContent(messageDTO.getContent());
         message.setSender(sender);
@@ -57,6 +62,7 @@ public class MessageService {
                         message.getReceiver().getId(), message.getContent(), message.getSendAt()))
                 .collect(Collectors.toList());
     }
+
     public List<MessageDTO> getMessages(Integer userId){
         return messageRepository
                 .getMessageOfUser(userId)
@@ -65,4 +71,8 @@ public class MessageService {
                         message.getReceiver().getId(), message.getContent(), message.getSendAt()))
                 .collect(Collectors.toList());
         }
+
+    private boolean isInvalid(ChatUser user){
+        return user == null;
+    }
 }
