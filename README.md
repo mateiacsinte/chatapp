@@ -35,7 +35,7 @@ POST localhost:8081/user/
 
 5. Verify that the users were created:
 ```bash
-   GET localhost:8081/user/
+GET localhost:8081/user/
 ```
 
 6. Create a message between them:
