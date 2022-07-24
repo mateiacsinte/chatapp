@@ -2,6 +2,8 @@ package com.chat.chatapp.entities;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +20,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "sender_user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private ChatUser sender;
 
     @ManyToOne
@@ -30,45 +33,4 @@ public class Message {
     @Column(name = "content")
     private String content;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public ChatUser getSender() {
-        return sender;
-    }
-
-    public void setSender(ChatUser sender) {
-        this.sender = sender;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-
-    public ChatUser getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(ChatUser receiver) {
-        this.receiver = receiver;
-    }
-
-
-    public Date getSendAt() {
-        return sendAt;
-    }
-
-    public void setSendAt(Date sendAt) {
-        this.sendAt = sendAt;
-    }
 }

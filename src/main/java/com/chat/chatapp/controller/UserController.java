@@ -3,6 +3,7 @@ import com.chat.chatapp.dto.message.MessageDTO;
 import com.chat.chatapp.dto.message.SendMessageDTO;
 import com.chat.chatapp.dto.user.UserDTO;
 import com.chat.chatapp.dto.user.UserRegisterDTO;
+import com.chat.chatapp.exceptions.UserNotFoundException;
 import com.chat.chatapp.service.MessageService;
 import com.chat.chatapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -22,15 +23,24 @@ public class UserController {
         this.messageService = messageService;
     }
 
-    @PostMapping("/user")
-    public UserDTO addUser(@RequestBody UserRegisterDTO user){
-
-        return userService.addUser(user);
-    }
-
     @GetMapping("/user")
     public List<UserDTO> getUsers(){
         return userService.getUsers();
+    }
+
+    @PostMapping("/user")
+    public UserDTO addUser(@RequestBody UserRegisterDTO user){
+        return userService.addUser(user);
+    }
+
+    @PutMapping("/user")
+    public UserDTO updateUser(@RequestBody UserDTO user) throws UserNotFoundException {
+        return userService.updateUser(user);
+    }
+
+    @DeleteMapping("/user")
+    public UserDTO deleteUser(@RequestBody UserDTO user) throws UserNotFoundException {
+        return userService.deleteUser(user);
     }
 
     @PostMapping("/user/message")

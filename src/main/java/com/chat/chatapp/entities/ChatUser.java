@@ -22,10 +22,10 @@ public class ChatUser {
     @Column(name = "password")
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.REMOVE)
     private Set<Message> sentMessages = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.REMOVE)
     private Set<Message> receivedMessages = new HashSet<>();
 
 }
